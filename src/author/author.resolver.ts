@@ -45,14 +45,14 @@ export class AuthorResolver {
   @Mutation(() => Int)
   async deleteAuthor(
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Promise<Number> {
+  ): Promise<number> {
     return this.authorService.remove(id)
   }
 
   @Mutation(() => Int)
   async deleteAuthorWithBooks(
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Promise<Number> {
+  ): Promise<number> {
     return this.authorService.removeWithBooks(id)
   }
 

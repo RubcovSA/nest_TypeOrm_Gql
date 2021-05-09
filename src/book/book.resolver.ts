@@ -1,21 +1,18 @@
-import { Logger, Optional } from '@nestjs/common'
 import {
-  Query,
   Args,
   ID,
-  Resolver,
-  Mutation,
   Int,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql'
-import { stringify } from 'querystring'
 import { AuthorService } from 'src/author/author.service'
 import { AuthorEntity } from 'src/author/entities/author.entity'
 import { Author } from 'src/author/models/author'
 import { BookService } from './book.service'
 import { BookInput } from './dto/inputs/book.input'
-import { BookEntity } from './entities/book.entity'
 import { Book } from './models/book'
 
 @Resolver(() => Book)
@@ -58,7 +55,7 @@ export class BookResolver {
   @Mutation(() => Int)
   async deleteBook(
     @Args({ name: 'id', type: () => ID }) id: string,
-  ): Promise<Number> {
+  ): Promise<number> {
     return this.bookService.remove(id)
   }
 

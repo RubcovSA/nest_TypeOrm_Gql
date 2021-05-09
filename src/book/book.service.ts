@@ -34,7 +34,7 @@ export class BookService {
     return this.bookRepository.save(book)
   }
 
-  async remove(id: string): Promise<Number> {
+  async remove(id: string): Promise<number> {
     const result = await this.bookRepository.delete(id)
     return result?.affected || 0
   }

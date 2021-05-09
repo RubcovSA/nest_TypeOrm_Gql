@@ -1,4 +1,4 @@
-import { Logger, Module, forwardRef } from '@nestjs/common'
+import { forwardRef, Logger, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { BookResolver } from './book.resolver'
 import { BookEntity } from './entities/book.entity'
