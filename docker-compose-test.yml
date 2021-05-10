@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  db-test:
+    container_name: db_app_tests
+    build: ./db-test
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 6001:3306

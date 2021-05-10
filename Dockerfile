@@ -1,5 +1,16 @@
-FROM node:14.5.0
+FROM node:12.16.2
 
-ADD start.sh /start.sh
-RUN chmod 755 /start.sh
-CMD ["/start.sh"]
+# Create app directory
+WORKDIR /app
+
+COPY package*.json ./
+COPY yarn.lock ./
+
+RUN yarn
+
+COPY . .
+RUN yarn build
+EXPOSE 3000
+
+RUN chmod 755 ./
+CMD ["yarn", "start:dev"]

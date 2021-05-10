@@ -32,12 +32,7 @@ export class AuthorService {
     const author = await this.authorRepository.findOne(id, {
       relations: ['books'],
     })
-    // const affected = author.books?.length ? author.books?.length + 1 : 0
     await this.authorRepository.delete(id)
-    // await this.bookService.removeBooksWithoutAuthors(
-    //   author.books.map((book) => book.id),
-    // )
-
     return author
   }
 
@@ -71,7 +66,6 @@ export class AuthorService {
       })
     }
     const authors = await query.getMany()
-    console.log(authors)
 
     return this.findAll(authors.map(({ id }) => id))
   }

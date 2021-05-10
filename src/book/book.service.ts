@@ -42,10 +42,14 @@ export class BookService {
   async removeBooksWithoutAuthors(ids: string[]) {
     const books = await this.bookRepository
       .createQueryBuilder('book')
-      .leftJoin('book.authors', 'authors')
+      .leftJoin('book.authors', 'author')
       .where('book.id in (:...ids)', { ids })
       .andWhere('author.id is null')
       .getMany()
+
+    if (!books || !books.length) {
+      return 0
+    }
 
     const result = await this.bookRepository.delete([
       ...books.map((book) => book.id),
@@ -64,7 +68,9 @@ export class BookService {
     const book = await this.bookRepository.findOne(bookId, {
       relations: ['authors'],
     })
-    if (!book) return
+    if (!book) {
+      return
+    }
 
     if (book.authors.find((existedAuthor) => existedAuthor.id === author.id)) {
       return book

@@ -8,7 +8,9 @@ $ yarn
 
 ```bash
 # development
-$ yarn start
+$ docker-compose up
+# or
+$ yarn docker:dev
 
 # watch mode
 $ yarn start:dev
@@ -20,12 +22,9 @@ $ yarn start:prod
 ## Test
 
 ```bash
-# unit tests
-$ yarn test
+#launch test DB
+$ yarn up:db:test
 
 # e2e tests
 $ yarn test:e2e
-
-# test coverage
-$ yarn test:cov
 ```

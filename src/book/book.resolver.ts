@@ -14,6 +14,7 @@ import { Author } from '../author/models/author'
 import { BookService } from './book.service'
 import { BookInput } from './dto/inputs/book.input'
 import { Book } from './models/book'
+import { NotFoundException } from '@nestjs/common'
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -65,11 +66,13 @@ export class BookResolver {
     @Args({ name: 'bookId', type: () => ID }) bookId: string,
   ): Promise<Book> {
     const author = await this.authorService.findOne(authorId)
-    if (!author) return
+    if (!author) {
+      throw new NotFoundException()
+    }
 
     const book = await this.bookService.addAuthor(author, bookId)
     if (!book) {
-      return // todo: return 404
+      throw new NotFoundException()
     }
 
     return book

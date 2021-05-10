@@ -1,18 +1,26 @@
 version: '3.9'
 services:
   app:
+    container_name: app
+    environment:
+      - DATABASE_HOST=db
     build: .
     ports:
-      - '3000:3000'
+      - 3000:3000
     depends_on:
       - db
-  #   # environment:
-  #   #  - DATABASE_HOST=db
-  #   volumes:
-  #     - .:.
+    volumes:
+      - .:/app
+    networks:
+      - app-network
   db:
     build: ./db
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
       - 6000:3306
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

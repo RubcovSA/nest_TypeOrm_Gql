@@ -58,12 +58,15 @@ export class AuthorResolver {
     @Args({ name: 'id', type: () => ID }) id: string,
   ): Promise<number> {
     const author = await this.authorService.removeWithBooks(id)
+    if (!author) {
+      return 0
+    }
 
     await this.bookService.removeBooksWithoutAuthors(
-      author.books.map((book) => book.id),
+      author.books?.map((book) => book.id),
     )
 
-    return (author?.books?.length || 0) + 1
+    return (author.books?.length || 0) + 1
   }
 
   @ResolveField()
