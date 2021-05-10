@@ -10,7 +10,6 @@ switch (process.env.NODE_ENV) {
         username: 'users_service_development',
         password: '123',
         database: 'CATALOG_DEV',
-        synchronize: true,
       },
     }
     break

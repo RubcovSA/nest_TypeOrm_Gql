@@ -1,0 +1,18 @@
+FROM node:12.16.2
+
+# Create app directory
+WORKDIR /app
+
+COPY package*.json ./
+COPY yarn.lock ./
+
+RUN yarn
+
+COPY . .
+RUN yarn build
+EXPOSE 3000
+
+ENV NODE_ENV production
+
+RUN chmod 755 ./
+CMD ["node", "dist/main"]
