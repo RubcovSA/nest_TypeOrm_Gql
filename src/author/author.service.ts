@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { BookService } from 'src/book/book.service'
-import { BookEntity } from 'src/book/entities/book.entity'
+import { BookEntity } from '../book/entities/book.entity'
 import { Repository } from 'typeorm'
 import { AuthorEntity } from './entities/author.entity'
 
@@ -10,9 +9,7 @@ export class AuthorService {
   constructor(
     @InjectRepository(AuthorEntity)
     private authorRepository: Repository<AuthorEntity>,
-    private bookService: BookService,
   ) {}
-  // @Inject(forwardRef(() => BookService)) private bookService: BookService,
 
   async findOne(id: string): Promise<AuthorEntity> {
     return this.authorRepository.findOne(id)
@@ -31,17 +28,17 @@ export class AuthorService {
     return result?.affected || 0
   }
 
-  async removeWithBooks(id: string): Promise<number> {
+  async removeWithBooks(id: string): Promise<AuthorEntity> {
     const author = await this.authorRepository.findOne(id, {
       relations: ['books'],
     })
-    const affected = author.books?.length ? author.books?.length + 1 : 0
+    // const affected = author.books?.length ? author.books?.length + 1 : 0
     await this.authorRepository.delete(id)
-    await this.bookService.removeBooksWithoutAuthors(
-      author.books.map((book) => book.id),
-    )
+    // await this.bookService.removeBooksWithoutAuthors(
+    //   author.books.map((book) => book.id),
+    // )
 
-    return affected
+    return author
   }
 
   async getBooks(id: string): Promise<BookEntity[]> {

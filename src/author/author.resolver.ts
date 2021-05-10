@@ -8,14 +8,18 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { Book } from 'src/book/models/book'
+import { Book } from '../book/models/book'
 import { AuthorService } from './author.service'
 import { AuthorInput } from './dto/inputs/author.input'
 import { Author } from './models/author'
+import { BookService } from '../book/book.service'
 
 @Resolver(() => Author)
 export class AuthorResolver {
-  constructor(private authorService: AuthorService) {}
+  constructor(
+    private authorService: AuthorService,
+    private bookService: BookService,
+  ) {}
 
   @Query(() => Author, { nullable: true })
   async getAuthor(
@@ -53,7 +57,13 @@ export class AuthorResolver {
   async deleteAuthorWithBooks(
     @Args({ name: 'id', type: () => ID }) id: string,
   ): Promise<number> {
-    return this.authorService.removeWithBooks(id)
+    const author = await this.authorService.removeWithBooks(id)
+
+    await this.bookService.removeBooksWithoutAuthors(
+      author.books.map((book) => book.id),
+    )
+
+    return (author?.books?.length || 0) + 1
   }
 
   @ResolveField()

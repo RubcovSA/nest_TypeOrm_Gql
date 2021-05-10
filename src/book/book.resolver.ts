@@ -8,9 +8,9 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { AuthorService } from 'src/author/author.service'
-import { AuthorEntity } from 'src/author/entities/author.entity'
-import { Author } from 'src/author/models/author'
+import { AuthorService } from '../author/author.service'
+import { AuthorEntity } from '../author/entities/author.entity'
+import { Author } from '../author/models/author'
 import { BookService } from './book.service'
 import { BookInput } from './dto/inputs/book.input'
 import { Book } from './models/book'
